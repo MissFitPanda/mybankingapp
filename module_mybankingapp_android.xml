@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_mybankingapp_android" default="compile.module.mybankingapp_android">
+  <dirname property="module.mybankingapp_android.basedir" file="${ant.file.module_mybankingapp_android}"/>
+  
+  <property name="module.jdk.home.mybankingapp_android" value="${jdk.home.10}"/>
+  <property name="module.jdk.bin.mybankingapp_android" value="${jdk.bin.10}"/>
+  <property name="module.jdk.classpath.mybankingapp_android" value="jdk.classpath.10"/>
+  
+  <property name="compiler.args.mybankingapp_android" value="-encoding UTF-8 -source 1.7 -target 1.7 ${compiler.args}"/>
+  
+  <property name="mybankingapp_android.output.dir" value="${module.mybankingapp_android.basedir}/production/mybankingapp_android"/>
+  <property name="mybankingapp_android.testoutput.dir" value="${module.mybankingapp_android.basedir}/test/mybankingapp_android"/>
+  
+  <path id="mybankingapp_android.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="mybankingapp_android.module.production.classpath">
+    <path refid="${module.jdk.classpath.mybankingapp_android}"/>
+    <path refid="library.flutter_for_android.classpath"/>
+  </path>
+  
+  <path id="mybankingapp_android.runtime.production.module.classpath">
+    <pathelement location="${mybankingapp_android.output.dir}"/>
+    <path refid="library.flutter_for_android.classpath"/>
+  </path>
+  
+  <path id="mybankingapp_android.module.classpath">
+    <path refid="${module.jdk.classpath.mybankingapp_android}"/>
+    <pathelement location="${mybankingapp_android.output.dir}"/>
+    <path refid="library.flutter_for_android.classpath"/>
+  </path>
+  
+  <path id="mybankingapp_android.runtime.module.classpath">
+    <pathelement location="${mybankingapp_android.testoutput.dir}"/>
+    <pathelement location="${mybankingapp_android.output.dir}"/>
+    <path refid="library.flutter_for_android.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.mybankingapp_android">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.mybankingapp_android">
+    <patternset refid="excluded.from.module.mybankingapp_android"/>
+  </patternset>
+  
+  <path id="mybankingapp_android.module.sourcepath">
+    <dirset dir="${module.mybankingapp_android.basedir}/android">
+      <include name="app/src/main/java"/>
+      <include name="gen"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.mybankingapp_android" depends="compile.module.mybankingapp_android.production,compile.module.mybankingapp_android.tests" description="Compile module mybankingapp_android"/>
+  
+  <target name="compile.module.mybankingapp_android.production" depends="register.custom.compilers" description="Compile module mybankingapp_android; production classes">
+    <mkdir dir="${mybankingapp_android.output.dir}"/>
+    <javac2 destdir="${mybankingapp_android.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.mybankingapp_android}/javac">
+      <compilerarg line="${compiler.args.mybankingapp_android}"/>
+      <bootclasspath refid="mybankingapp_android.module.bootclasspath"/>
+      <classpath refid="mybankingapp_android.module.production.classpath"/>
+      <src refid="mybankingapp_android.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.mybankingapp_android"/>
+    </javac2>
+    
+    <copy todir="${mybankingapp_android.output.dir}">
+      <fileset dir="${module.mybankingapp_android.basedir}/android/app/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.mybankingapp_android.basedir}/android/gen">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.mybankingapp_android.tests" depends="register.custom.compilers,compile.module.mybankingapp_android.production" description="compile module mybankingapp_android; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.mybankingapp_android" description="cleanup module">
+    <delete dir="${mybankingapp_android.output.dir}"/>
+    <delete dir="${mybankingapp_android.testoutput.dir}"/>
+  </target>
+</project>

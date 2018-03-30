@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_mybankingapp" default="compile.module.mybankingapp">
+  <dirname property="module.mybankingapp.basedir" file="${ant.file.module_mybankingapp}"/>
+  
+  <property name="module.jdk.home.mybankingapp" value=""/>
+  <property name="module.jdk.bin.mybankingapp" value=""/>
+  <property name="module.jdk.classpath.mybankingapp" value=""/>
+  
+  <property name="compiler.args.mybankingapp" value="-encoding UTF-8 -source 1.7 -target 1.7 ${compiler.args}"/>
+  
+  <property name="mybankingapp.output.dir" value="${module.mybankingapp.basedir}/production/mybankingapp"/>
+  <property name="mybankingapp.testoutput.dir" value="${module.mybankingapp.basedir}/test/mybankingapp"/>
+  
+  <path id="mybankingapp.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="mybankingapp.module.production.classpath">
+    <path refid="library.dart_sdk.classpath"/>
+    <path refid="library.dart_packages.classpath"/>
+    <path refid="library.flutter_plugins.classpath"/>
+  </path>
+  
+  <path id="mybankingapp.runtime.production.module.classpath">
+    <pathelement location="${mybankingapp.output.dir}"/>
+    <path refid="library.dart_sdk.classpath"/>
+    <path refid="library.dart_packages.classpath"/>
+    <path refid="library.flutter_plugins.classpath"/>
+  </path>
+  
+  <path id="mybankingapp.module.classpath">
+    <pathelement location="${mybankingapp.output.dir}"/>
+    <path refid="library.dart_sdk.classpath"/>
+    <path refid="library.dart_packages.classpath"/>
+    <path refid="library.flutter_plugins.classpath"/>
+  </path>
+  
+  <path id="mybankingapp.runtime.module.classpath">
+    <pathelement location="${mybankingapp.testoutput.dir}"/>
+    <pathelement location="${mybankingapp.output.dir}"/>
+    <path refid="library.dart_sdk.classpath"/>
+    <path refid="library.dart_packages.classpath"/>
+    <path refid="library.flutter_plugins.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.mybankingapp">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.mybankingapp">
+    <patternset refid="excluded.from.module.mybankingapp"/>
+  </patternset>
+  
+  
+  <target name="compile.module.mybankingapp" depends="compile.module.mybankingapp.production,compile.module.mybankingapp.tests" description="Compile module mybankingapp"/>
+  
+  <target name="compile.module.mybankingapp.production" depends="register.custom.compilers" description="Compile module mybankingapp; production classes"/>
+  
+  <target name="compile.module.mybankingapp.tests" depends="register.custom.compilers,compile.module.mybankingapp.production" description="compile module mybankingapp; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.mybankingapp" description="cleanup module">
+    <delete dir="${mybankingapp.output.dir}"/>
+    <delete dir="${mybankingapp.testoutput.dir}"/>
+  </target>
+</project>
