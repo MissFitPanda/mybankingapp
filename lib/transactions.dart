@@ -8,6 +8,8 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import'package:mybankingapp/settings.dart ';
+import './speech_package.dart';
+
 
 class transactions extends StatefulWidget {
   @override
@@ -16,6 +18,7 @@ class transactions extends StatefulWidget {
 
 class _transactionsState extends State<transactions> {
 List data;
+
  Future<String> getData() async {
   var res = await http.get(new Uri.http("10.0.2.2:8080", "/TransactionInfo"));
 
@@ -50,8 +53,13 @@ void initState() {
               ),
             ),
             new RaisedButton(child: new Text('Pay'),
-                onPressed: () => Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context)=> new payment()),
-                )
+                onPressed: () async {
+                  SpeechPackage.toSpeech("pay");
+                    Navigator.of(context).push
+                      (new MaterialPageRoute
+                      (builder: (BuildContext context)=> new payment()));
+                      }
+
             )
           ],
         ),

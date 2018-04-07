@@ -3,13 +3,16 @@ import 'package:mybankingapp/settings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mybankingapp/login.dart';
 import 'package:speech_recognition/speech_recognition.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 
 void main() {
   runApp(new MaterialApp(
     home: new MyApp(),
     routes: <String, WidgetBuilder>{
-      "/settings": (BuildContext context)=> new settings()
+      "/settings": (BuildContext context)=> new settings(),
+      "/login": (BuildContext context)=> new login()
 
     }
 
@@ -21,14 +24,14 @@ class MyApp extends StatefulWidget{
 
   class _MyAppState extends State<MyApp> {
 
-    SpeechRecognition _speech;
-
-    bool _speechRecognitionAvailable = true;
-    bool _isListening = false;
-
-    String transcription = '';
-
-    String _currentLocale = 'en_US';
+//    SpeechRecognition _speech;
+//
+//    bool _speechRecognitionAvailable = true;
+//    bool _isListening = false;
+//
+//    String transcription = '';
+//
+//    String _currentLocale = 'en_US';
 
     String _title = "Welcome! Login Please";
     Widget _screen;
@@ -37,35 +40,15 @@ class MyApp extends StatefulWidget{
     bool _authenticated;
 
 
-    @override
-    initState() {
-      super.initState();
-      activateSpeechRecognizer();
-    }
-
-
-    void activateSpeechRecognizer() {
-      print('_MyAppState.activateSpeechRecognizer... ');
-      _speech = new SpeechRecognition();
-      _speech.setAvailabilityHandler(onSpeechAvailability);
-      _speech.setCurrentLocaleHandler(onCurrentLocale);
-      _speech.setRecognitionStartedHandler(onRecognitionStarted);
-      _speech.setRecognitionResultHandler(onRecognitionResult);
-      _speech.setRecognitionCompleteHandler(onRecognitionComplete);
-      _speech
-          .activate()
-          .then((res) => setState(() => _speechRecognitionAvailable = res));
-    }
-
-
 
 
     _MyAppState(){
-      _login = new login(onSubmit: (){onSubmit();});
+      _login = new login(onSubmit: (){ onSubmit(); });
       _settings = new settings();
       _screen = _login;
       _authenticated = false;
     }
+
     void onSubmit() {
       print('login with:' +  _login.username + ' ' + _login.password);
 //      if(_login.username =='u' && _login.password =='p'){
@@ -108,138 +91,162 @@ class MyApp extends StatefulWidget{
       }
       );
     }
-    Widget _buildDissmissibleBackground(
-        {Color color,
-          IconData icon,
-          FractionalOffset align = FractionalOffset.centerLeft}) =>
-        new Container(
-          height: 42.0,
-          color: color,
-          child: new Icon(icon, color: Colors.white70),
-          alignment: align,
-        );
+//    Widget _buildDissmissibleBackground(
+//        {Color color,
+//          IconData icon,
+//          FractionalOffset align = FractionalOffset.centerLeft}) =>
+//        new Container(
+//          height: 42.0,
+//          color: color,
+//          child: new Icon(icon, color: Colors.white70),
+//          alignment: align,
+//        );
     @override
     Widget build(BuildContext context) {
       return new MaterialApp(
         title: 'login',
         home: new Scaffold(
-        appBar: new AppBar(
+          appBar: new AppBar(
 
-        backgroundColor: Colors.indigoAccent,
-        title: new Text(_title),
+            backgroundColor: Colors.indigoAccent,
+            title: new Text(_title),
 
-        actions: <Widget>[
-        new IconButton(icon: new Icon(Icons.home), onPressed: () {
-        _gohome();
+            actions: <Widget>[
+              new IconButton(icon: new Icon(Icons.home), onPressed: () {
+                _gohome();
 
-        }),
-        new IconButton(icon: new Icon(Icons.cancel), onPressed: () {
-        _logout();
+              }),
+              new IconButton(icon: new Icon(Icons.cancel), onPressed: () {
+                _logout();
 
-        }),
-
-
-        ],
-        ),
-          body: new Padding(
-              padding: new EdgeInsets.all(8.0),
-              child: new Center(
-                child: new Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    new Expanded(
-                        child: new Container(
-                            padding: const EdgeInsets.all(5.0),
-                            color: Colors.grey.shade200,
-                            child: new Text(transcription))),
-                    _buildButton(
-                      onPressed: !_isListening ? () => abc() : null,
-                      label: _isListening
-                          ? 'Listening...'
-                          : 'Listen ($_currentLocale)',
-                    ),
-                    _buildButton(
-                      onPressed: _isListening ? () => cancel() : null,
-                      label: 'Cancel',
-                    ),
-                    _buildButton(
-                      onPressed: _isListening ? () => stop() : null,
-                      label: 'Stop',
-                    ),
-                  ],
-                ),
-              )),
+              }),
+            ],
+          ),
+          body:_login,
         ),
       );
     }
+  }
+//      return new MaterialApp(
+//        title: 'login',
+//        home: new Scaffold(
+//        appBar: new AppBar(
+//
+//        backgroundColor: Colors.indigoAccent,
+//        title: new Text(_title),
+//
+//        actions: <Widget>[
+//        new IconButton(icon: new Icon(Icons.home), onPressed: () {
+//        _gohome();
+//
+//        }),
+//        new IconButton(icon: new Icon(Icons.cancel), onPressed: () {
+//        _logout();
+//
+//        }),
+//
+//
+//        ],
+//        ),
+//          body: new Padding(
+//              padding: new EdgeInsets.all(8.0),
+//              child: new Center(
+//                child: new Column(
+//                  mainAxisSize: MainAxisSize.min,
+//                  crossAxisAlignment: CrossAxisAlignment.stretch,
+//                  children: [
+//                    new Expanded(
+//                        child: new Container(
+//                            padding: const EdgeInsets.all(5.0),
+//                            color: Colors.grey.shade200,
+//                            child: new Text(transcription))),
+//                    _buildButton(
+//                      onPressed: !_isListening ? () => abc() : null,
+//                      label: _isListening
+//                          ? 'Listening...'
+//                          : 'Listen ($_currentLocale)',
+//                    ),
+//                    _buildButton(
+//                      onPressed: _isListening ? () => cancel() : null,
+//                      label: 'Cancel',
+//                    ),
+//                    _buildButton(
+//                      onPressed: _isListening ? () => stop() : null,
+//                      label: 'Stop',
+//                    ),
+//                  ],
+//                ),
+//              )),
+//        ),
+//      );
+//    }
+//
+//    Widget _buildButton({String label, VoidCallback onPressed}) => new Padding(
+//        padding: new EdgeInsets.all(12.0),
+//        child: new RaisedButton(
+//          color: Colors.cyan.shade600,
+//          onPressed: onPressed,
+//          child: new Text(
+//            label,
+//            style: const TextStyle(color: Colors.white),
+//          ),
+//        ));
+//
+//    void abc() {
+//      setState(() => _isListening = true);
+//      _speech.activate();
+//      start();
+//      return;
+//    }
+//
+//      void start() => _speech
+//          .listen(locale: _currentLocale)
+//          .then((result) => print('_MyAppState.start => result ${result}'));
+////          .then((result) => setState(() => _isListening = true ) );
+//
+//      void cancel() =>
+//          _speech.cancel().then((result) => setState(() => _isListening = false));
+//
+//      void stop() =>
+//          _speech.stop().then((result) => setState(() => _isListening = false));
+//
+//      void onSpeechAvailability(bool result) =>
+//          setState(() => _speechRecognitionAvailable = result);
+//
+//      void onCurrentLocale(String locale) =>
+//          setState(() => _currentLocale = locale);
+//
+//      void onRecognitionStarted() => setState(() => _isListening = true);
+//
+//      void onRecognitionResult(String text) => setState(() => transcription = text);
+//
+//      void onRecognitionComplete() => setState(() => _isListening = false);
+//    }
 
-    Widget _buildButton({String label, VoidCallback onPressed}) => new Padding(
-        padding: new EdgeInsets.all(12.0),
-        child: new RaisedButton(
-          color: Colors.cyan.shade600,
-          onPressed: onPressed,
-          child: new Text(
-            label,
-            style: const TextStyle(color: Colors.white),
-          ),
-        ));
-
-    void abc() {
-      setState(() => _isListening = true);
-      _speech.activate();
-      start();
-      return;
-    }
-
-      void start() => _speech
-          .listen(locale: _currentLocale)
-          .then((result) => print('_MyAppState.start => result ${result}'));
-//          .then((result) => setState(() => _isListening = true ) );
-
-      void cancel() =>
-          _speech.cancel().then((result) => setState(() => _isListening = false));
-
-      void stop() =>
-          _speech.stop().then((result) => setState(() => _isListening = false));
-
-      void onSpeechAvailability(bool result) =>
-          setState(() => _speechRecognitionAvailable = result);
-
-      void onCurrentLocale(String locale) =>
-          setState(() => _currentLocale = locale);
-
-      void onRecognitionStarted() => setState(() => _isListening = true);
-
-      void onRecognitionResult(String text) => setState(() => transcription = text);
-
-      void onRecognitionComplete() => setState(() => _isListening = false);
-    }
-
-       // return new MaterialApp(
-         // title: 'login',
-          //home: new Scaffold(
-            //appBar: new AppBar(
-
-              //backgroundColor: Colors.indigoAccent,
-              //title: new Text(_title),
-
-              //actions: <Widget>[
-                //new IconButton(icon: new Icon(Icons.home), onPressed: () {
-                  //_gohome();
-
-                //}),
-                //new IconButton(icon: new Icon(Icons.cancel), onPressed: () {
-                  //_logout();
-
-                //}),
-
-
-              //],
-            //),
-            //body: _login,
-          //),
-        //);
-      //}
-
-
+//        return new MaterialApp(
+//          title: 'login',
+//          home: new Scaffold(
+//            appBar: new AppBar(
+//
+//              backgroundColor: Colors.indigoAccent,
+//              title: new Text(_title),
+//
+//              actions: <Widget>[
+//                new IconButton(icon: new Icon(Icons.home), onPressed: () {
+//                  _gohome();
+//
+//                }),
+//                new IconButton(icon: new Icon(Icons.cancel), onPressed: () {
+//                  _logout();
+//
+//                }),
+//
+//
+//              ],
+//            ),
+//            body: _login,
+//          ),
+//        );
+//      }
+//
+//

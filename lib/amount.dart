@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'dart:developer';
 import 'dart:core';
+import './speech_package.dart';
 
 
 
@@ -104,7 +105,13 @@ class _amountState extends State<amount> {
                 new ListTile(
                   title: new Text("Home"),
                   trailing: new Icon(Icons.home),
-                  onTap:() =>  Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute(builder: (BuildContext context)=> new settings()), (Route route)=> route==null),
+                    onTap:() async {
+                      SpeechPackage.toSpeech('home');
+                      Navigator.of(context).pushAndRemoveUntil
+                        (new MaterialPageRoute(builder:
+                          (BuildContext context) => new settings()),
+                              (Route route) => route == null);
+                    }
                 ),
                 new ListTile(
                   title: new Text("Quit"),
