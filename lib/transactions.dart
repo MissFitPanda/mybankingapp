@@ -9,6 +9,7 @@ import 'dart:async';
 import 'dart:convert';
 import'package:mybankingapp/settings.dart ';
 import './speech_package.dart';
+import './firstpage' as first;
 
 
 class transactions extends StatefulWidget {
@@ -39,61 +40,35 @@ void initState() {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-
-      home: new Scaffold(
-        appBar: new AppBar(
-          title: new Text("Transactions"),
-        ),
-        body: new Column(
-          children: <Widget>[
-            new TextField(
-              decoration: new InputDecoration(hintText: 'Enter Payee'),),
-            new TextField(
-              keyboardType: TextInputType.number,
-              decoration: new InputDecoration(
-                hintText: "enter amount"
-              ),),
-
-            new RaisedButton(child: new Text('Pay'),
-                onPressed: () async {
-                  SpeechPackage.toSpeech("pay");
-                    Navigator.of(context).push
-                      (new MaterialPageRoute
-                      (builder: (BuildContext context)=> new payment()));
-            }
-            )
-          ],
-        ),
-        drawer: new Drawer(
-          child: new ListView(
-            children: <Widget>[
-              new UserAccountsDrawerHeader(
-                accountName: new Text("Sanjana Sinha"),
-                accountEmail: new Text("sanjana@icici.com"),
-
-              ),
-              new ListTile(
-                title: new Text("Help & Feedback"),
-                trailing: new Icon(Icons.settings),
-              ),
-              new ListTile(
-                title: new Text("Home"),
-                trailing: new Icon(Icons.home),
-                onTap:() =>  Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute(builder: (BuildContext context)=> new settings()), (Route route)=> route==null),
-              ),
-              new ListTile(
-                title: new Text("Quit"),
-                trailing: new Icon(Icons.close),
-                onTap:() => Navigator.of(context).pop(),
-              )
-
+      home: new DefaultTabController(
+        length: 2,
+        child: new Scaffold(
+          appBar: new AppBar(
+            actions: [
+              new IconButton(icon: new Icon(Icons.home),
+                onPressed: () =>
+                    Navigator.of(context).pushAndRemoveUntil(
+                        new MaterialPageRoute(builder: (
+                            BuildContext context) => new settings()), (
+                        Route route) => route == null),),
             ],
-
+            bottom: new TabBar(
+              tabs: [
+                new Tab(text: "Self", icon: new Icon(Icons.input)),
+                new Tab(text: "Others", icon: new Icon(Icons.launch)),
+              ],
+            ),
+            title: new Text('Fund Transfer'),
+          ),
+          body: new TabBarView(
+              children: [
+              new first.first();
+            ],
           ),
         ),
-
       ),
     );
 
   }
   }
+
