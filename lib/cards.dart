@@ -58,14 +58,31 @@ class _cardsState extends State<cards> {
           itemBuilder: (BuildContext context, int index){
             return new Card(
                 child: new Container(
-              child: new Text(
+              children:[
+                new Text("Debit Cards:",style: new TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),),
+                new Text(
                   data[index]["current_cards"],
                 style: new TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
                 ),
-
               ),
+                new Text("Credit Cards:",style: new TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),),
+                new Text(
+                  data[index]["current_cards"],
+                  style: new TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+
+                ),
+              ],
               padding: const EdgeInsets.all(40.0),
 
                 ),
@@ -76,11 +93,6 @@ class _cardsState extends State<cards> {
         drawer: new Drawer(
           child: new ListView(
             children: <Widget>[
-              new UserAccountsDrawerHeader(
-                accountName: new Text("Sanjana Sinha"),
-                accountEmail: new Text("sanjana@icici.com"),
-
-              ),
               new ListTile(
                 title: new Text("Help & Feedback"),
                 trailing: new Icon(Icons.settings),

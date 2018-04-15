@@ -9,6 +9,7 @@ import 'package:crypto/crypto.dart';
 import 'dart:developer';
 import 'dart:core';
 import './speech_package.dart';
+import  './help.dart';
 
 
 
@@ -47,57 +48,53 @@ class _amountState extends State<amount> {
 
   @override
   Widget build(BuildContext context) {
-    print(data);
     return new MaterialApp(
-
       home: new Scaffold(
           appBar: new AppBar(
-            title: new Text("Amount"),
+            title: new Text("Accounts & Summary"),
+            actions: <Widget>[
+              new IconButton(
+                icon: new Icon(Icons.help),
+                iconSize: 28.0,
+                color: Colors.white,
+                onPressed: () {
+      SpeechPackage.toSpeech('HELP');
+      Navigator.of(context).pushAndRemoveUntil(
+      new MaterialPageRoute(
+      builder: (BuildContext context) => new help()), (
+      Route route) => route == null);
+      },
+              ),
+            ],
+
           ),
-          body: new ListView.builder(
-           itemCount: data == null ? 0 : data.length,
-            itemBuilder: (BuildContext context, int index){
-              //if(data == null) {
-                //return;
-              //}
-
-             // print(index);
-              //return new ListTile(
-                //title: new Text(
-                  //  data[index]["current_amount"]
-//                    data[index]["current_amount"]
-                //),
-
-              return new Card(
-
-                child: new Container(
+          body: new Container(
+            padding: new EdgeInsets.all(15.0),
+            child: new Row(
+              children: [
+                  new Column(
+                  children:[
 
 
-                  child: new Text(
-                      data[index]["current_amount"],
-                    style: new TextStyle(
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold,
 
-                    ),
+                ],
+            ),
+            new Column(
+              children: [
 
 
-                  ),
 
-                  padding: const EdgeInsets.all(40.0),
-                ),
+            ],
+            ),
 
-              );
-            },
+        ],
+
+
+      ),
           ),
           drawer: new Drawer(
             child: new ListView(
               children: <Widget>[
-                new UserAccountsDrawerHeader(
-                  accountName: new Text("Sanjana Sinha"),
-                  accountEmail: new Text("sanjana@icici.com"),
-
-                ),
                 new ListTile(
                   title: new Text("Help & Feedback"),
                   trailing: new Icon(Icons.settings),
@@ -117,7 +114,18 @@ class _amountState extends State<amount> {
                   title: new Text("Quit"),
                   trailing: new Icon(Icons.close),
                   onTap:() => Navigator.of(context).pop(),
-                )
+                ),
+          new ListTile(
+      title: new Text("Home"),
+        trailing: new Icon(Icons.arrow_back),
+        onTap:() async {
+          SpeechPackage.toSpeech('home');
+          Navigator.of(context).pushAndRemoveUntil
+            (new MaterialPageRoute(builder:
+              (BuildContext context) => new settings()),
+                  (Route route) => route == null);
+        }
+    ),
 
               ],
 

@@ -67,14 +67,34 @@ import './recogniser.dart';
     @override
     Widget build(BuildContext context) {
       return new Column(
+        mainAxisAlignment:MainAxisAlignment.center,
         children: <Widget>[
           new TextField(controller: _user,
-            decoration: new InputDecoration(hintText: 'Enter Username'),),
+            decoration: new InputDecoration(hintText: 'Enter Username',border: new OutlineInputBorder(
+              borderRadius: const BorderRadius.all(
+                const Radius.circular(0.0),
+              ),
+              borderSide: new BorderSide(
+                color: Colors.black,
+                width: 1.0,
+              ),
+            ),),),
           new TextField(controller: _pass,
-            decoration: new InputDecoration(hintText: 'Enter Password'),
+            decoration: new InputDecoration(hintText: 'Enter Password',border: new OutlineInputBorder(
+              borderRadius: const BorderRadius.all(
+                const Radius.circular(0.0),
+              ),
+              borderSide: new BorderSide(
+                color: Colors.black,
+                width: 1.0,
+              ),
+            ),),
             obscureText: true,),
+          new Divider(height: 15.0,color: Colors.white),
+          new Divider(height: 15.0,color: Colors.white,),
           new RaisedButton(
-              child: new Text(SubmitButtonValue),
+              child: new Text(SubmitButtonValue,style: new TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+              color: Colors.indigoAccent,
               onPressed: () async {
 //                  SpeechPackage.toSpeech("login successfull");
                   Navigator.of(context).push
@@ -103,6 +123,8 @@ import './recogniser.dart';
         isListening = false;
       }));
     }
+
+
 
     void onSpeechAvailability(bool result) =>
         setState(() => _speechRecognitionAvailable = result);

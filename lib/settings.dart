@@ -4,6 +4,7 @@ import 'package:mybankingapp/login.dart';
 import 'transactions.dart';
 import 'amount.dart';
 import 'cards.dart';
+import 'loans.dart';
 import 'package:speech_recognition/speech_recognition.dart';
 import './speech_package.dart';
 
@@ -48,6 +49,62 @@ import './speech_package.dart';
           .activate()
           .then((res) => setState(() => _speechRecognitionAvailable = res));
     }
+    Widget _screen;
+    login _login;
+    bool _authenticated;
+
+
+
+
+    _MyAppState(){
+      _login = new login(onSubmit: (){ onSubmit(); });
+      _settings = new settings();
+      _screen = _login;
+      _authenticated = false;
+    }
+
+    void onSubmit() {
+      print('login with:' +  _login.username + ' ' + _login.password);
+//      if(_login.username =='u' && _login.password =='p'){
+      _setAuthenticated(true);
+//      }
+    }
+
+    void _gohome(){
+      print('go home');
+      setState((){
+        if(_authenticated==true){
+          _screen = _settings;
+        }else{
+          _screen = _login;
+
+        }
+
+      }
+      );
+    }
+    void _logout(){
+      print('go logout');
+      _setAuthenticated(false);
+
+    }
+    void _setAuthenticated(bool auth){
+      setState((){
+        if(auth==true){
+          _screen = _settings;
+          _title= 'Welcome to your account';
+          _authenticated = true;
+        }else{
+
+          _title= 'Please login';
+          _screen = _login;
+          _authenticated = false;
+
+        }
+
+      }
+      );
+    }
 
 
 
@@ -61,17 +118,20 @@ import './speech_package.dart';
 
             backgroundColor: Colors.indigoAccent,
             title: new Text(_title),
+              actions: <Widget>[
+        new IconButton(icon: new Icon(Icons.exit_to_app), onPressed: () {
+            Navigator.of(context).pushAndRemoveUntil
+              (new MaterialPageRoute(builder:
+                (BuildContext context) => new login()),
+                    (Route route) => route == null);
+          }),
 
 
+        ],
           ),
           drawer: new Drawer(
             child: new ListView(
               children: <Widget>[
-                new UserAccountsDrawerHeader(
-                  accountName: new Text("Sanjana Sinha"),
-                  accountEmail: new Text("sanjana@icici.com"),
-
-                ),
                 new ListTile(
                   title: new Text("Help & Feedback"),
                   trailing: new Icon(Icons.settings),
@@ -101,94 +161,29 @@ import './speech_package.dart';
             ),
           ),
           body: new Container(
-            padding: new EdgeInsets.all(10.0),
+            padding: new EdgeInsets.only(left:110.0),
             child: new Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-
-              children: [
-                new Column(
-                children: [
-                new IconButton(icon: new Icon(Icons.group),
-                    iconSize: 100.0,
-                    color: Colors.blueAccent,
-                    onPressed: () {
-                      SpeechPackage.toSpeech(_amount);
-                      Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute
-                      (builder: (BuildContext context)=> new amount()), (Route route)=> route==null);
-                    }),
-                new Text("Accounts & Summary", style: new TextStyle(fontWeight: FontWeight.bold),
-                ),
-                new IconButton(icon: new Icon(Icons.compare_arrows),
-                    iconSize: 100.0,
-                    color: Colors.blueAccent,
-                    onPressed: () {
-                      SpeechPackage.toSpeech(_transaction);
-                      Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute(builder: (BuildContext context)=> new transactions()), (Route route)=> route==null);
-                    }),
-                new Text("Fund Transfer", style: new TextStyle(fontWeight: FontWeight.bold),
-                ),
-
-                new IconButton(icon: new Icon(Icons.payment),
-                    iconSize: 100.0,
-                    color: Colors.blueAccent,
-                    onPressed: () {
-                      SpeechPackage.toSpeech('cards');
-                      Navigator.of(context).pushAndRemoveUntil(
-                          new MaterialPageRoute(
-                              builder: (BuildContext context) => new cards()), (
-                          Route route) => route == null);
-                    }),
-                new Text("Cards & more", style: new TextStyle(fontWeight: FontWeight.bold),),
-              ],
-                ),
-
-        new Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            new IconButton(icon: new Icon(Icons.attach_money ),
-                iconSize: 100.0,
-                color: Colors.blueAccent,
-                onPressed: () {
-                  SpeechPackage.toSpeech('Loans');
-                  Navigator.of(context).pushAndRemoveUntil(
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new cards()), (
-                      Route route) => route == null);
-                }),
-            new Text("Loans", style: new TextStyle(fontWeight: FontWeight.bold),),
-            new IconButton(icon: new Icon(Icons.calendar_today),
-                iconSize: 100.0,
-                color: Colors.blueAccent,
-                onPressed: () {
-                  SpeechPackage.toSpeech('Bills and Payments');
-                  Navigator.of(context).pushAndRemoveUntil(
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new cards()), (
-                      Route route) => route == null);
-                }),
-            new Text("Bills and Payments", style: new TextStyle(fontWeight: FontWeight.bold),),
-            new IconButton(icon: new Icon(Icons.more),
-                iconSize: 100.0,
-                color: Colors.blueAccent,
-                onPressed: () {
-                  SpeechPackage.toSpeech('offers');
-                  Navigator.of(context).pushAndRemoveUntil(
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new cards()), (
-                      Route route) => route == null);
-                }),
-            new Text("Offers", style: new TextStyle(fontWeight: FontWeight.bold),),
-
-            _buildButtonBar()
-              ],
-        ),
-
-          ],
+              children:[
+                 new Column(
+                children:[
+            new IconButton(icon: new Icon(Icons.people, color: Colors.indigoAccent),
+            iconSize: 120.0
+            ,onPressed: () =>Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute
+            (builder: (BuildContext context)=> new amount()),(Route route)=> route==null),),
+          new Text("Accounts & Summary",style: new TextStyle(fontWeight: FontWeight.bold),),
+          new IconButton(icon: new Icon(Icons.swap_horiz,color: Colors.indigoAccent),
+            iconSize: 120.0 ,
+            onPressed: () => Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute(builder: (BuildContext context)=> new transactions()), (Route route)=> route==null),),
+            new Text("Fund Transfer",style: new TextStyle(fontWeight: FontWeight.bold),),
+            new IconButton(icon: new Icon(Icons.style,color: Colors.indigoAccent),
+              iconSize: 120.0,onPressed: () => Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute(builder: (BuildContext context)=> new cards()), (Route route)=> route==null),),
+            new Text("Cards",style: new TextStyle(fontWeight: FontWeight.bold),),
+            _buildButtonBar(),
+                ],
             ),
-          )
+              ],
+            ),
+          ),
         ),
       );
     }
@@ -224,40 +219,16 @@ import './speech_package.dart';
         SpeechPackage.toSpeech("Accounts & Summary");
         Navigator.of(context).push
           (new MaterialPageRoute
-          (builder: (BuildContext context) => new amount()));
+          (builder: (BuildContext context) => new transactions()));
       }
-      if (transcription.toLowerCase().contains('Fund')) {
-        SpeechPackage.toSpeech("Accounts & Summary");
+      else if (transcription.toLowerCase().contains('loans')) {
+        SpeechPackage.toSpeech("Loans Pressed");
         Navigator.of(context).push
           (new MaterialPageRoute
-          (builder: (BuildContext context) => new amount()));
+          (builder: (BuildContext context) => new loans()));
       }
-      if (transcription.toLowerCase().contains('Cards')) {
-        SpeechPackage.toSpeech("Accounts & Summary");
-        Navigator.of(context).push
-          (new MaterialPageRoute
-          (builder: (BuildContext context) => new amount()));
-      }
-      if (transcription.toLowerCase().contains('Loans')) {
-        SpeechPackage.toSpeech("Accounts & Summary");
-        Navigator.of(context).push
-          (new MaterialPageRoute
-          (builder: (BuildContext context) => new amount()));
-      }
-      if (transcription.toLowerCase().contains('Bills')) {
-        SpeechPackage.toSpeech("Accounts & Summary");
-        Navigator.of(context).push
-          (new MaterialPageRoute
-          (builder: (BuildContext context) => new amount()));
-      }
-      if (transcription.toLowerCase().contains('Offers')) {
-        SpeechPackage.toSpeech("Accounts & Summary");
-        Navigator.of(context).push
-          (new MaterialPageRoute
-          (builder: (BuildContext context) => new amount()));
-      }
-
     });
+
 
     Widget _buildButtonBar() {
       List<Widget> buttons = [

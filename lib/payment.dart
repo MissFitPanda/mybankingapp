@@ -10,9 +10,6 @@ import 'dart:developer';
 import 'dart:core';
 import './speech_package.dart';
 
-
-
-
 class payment extends StatefulWidget {
   @override
   _paymentState createState() => new _paymentState();
@@ -54,40 +51,20 @@ class _paymentState extends State<payment> {
         appBar: new AppBar(
           title: new Text("Payment"),
         ),
-        body: new ListView.builder(
-          itemCount: data == null ? 0 : data.length,
-          itemBuilder: (BuildContext context, int index){
-            //if(data == null) {
-            //return;
-            //}
+        body: new Container(
+          padding: new EdgeInsets.only(left: 42.0),
+          child: new Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
 
-            // print(index);
-            //return new ListTile(
-            //title: new Text(
-            //  data[index]["current_amount"]
-//                    data[index]["current_amount"]
-            //),
+              children: [
+          new Column(
+          children: [
 
-            return new Card(
-
-              child: new Container(
-
-                child: new Text(
-
-                  data[index]["current_amount"],
-                  style: new TextStyle(
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-
-
-                ),
-
-                padding: const EdgeInsets.all(40.0),
-              ),
-
-            );
-          },
+          ],
+          ),
+              ],
+          ),
         ),
         drawer: new Drawer(
           child: new ListView(

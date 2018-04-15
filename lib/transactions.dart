@@ -47,23 +47,23 @@ void initState() {
         body: new Column(
           children: <Widget>[
             new TextField(
+              decoration: new InputDecoration(hintText: 'Enter Payee'),),
+            new TextField(
               keyboardType: TextInputType.number,
               decoration: new InputDecoration(
                 hintText: "enter amount"
-              ),
-            ),
+              ),),
+
             new RaisedButton(child: new Text('Pay'),
                 onPressed: () async {
                   SpeechPackage.toSpeech("pay");
                     Navigator.of(context).push
                       (new MaterialPageRoute
                       (builder: (BuildContext context)=> new payment()));
-                      }
-
+            }
             )
           ],
         ),
-
         drawer: new Drawer(
           child: new ListView(
             children: <Widget>[
