@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:mybankingapp/transactions.dart';
 import 'main.dart';
 import 'payment.dart';
 import 'package:mybankingapp/login.dart';
@@ -40,7 +40,8 @@ class _firstState extends State<first> {
         body: new Column(
           children: <Widget>[
             new TextField(
-              decoration: new InputDecoration(hintText: 'Enter Payee'),
+              keyboardType: TextInputType.number,
+              decoration: new InputDecoration(hintText: "enter account number"),
             ),
             new TextField(
               keyboardType: TextInputType.number,

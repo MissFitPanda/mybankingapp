@@ -9,7 +9,8 @@ import 'dart:async';
 import 'dart:convert';
 import'package:mybankingapp/settings.dart ';
 import './speech_package.dart';
-import './firstpage' as first;
+import 'package:mybankingapp/firstpage.dart' as first;
+import 'package:mybankingapp/secondpage.dart' as second;
 
 
 class transactions extends StatefulWidget {
@@ -62,7 +63,8 @@ void initState() {
           ),
           body: new TabBarView(
               children: [
-              new first.first();
+                new first.first(),
+                new second.second(),
             ],
           ),
         ),

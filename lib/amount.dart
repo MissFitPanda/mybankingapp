@@ -69,21 +69,26 @@ class _amountState extends State<amount> {
 
           ),
           body: new Container(
-            padding: new EdgeInsets.only(left: 20.0),
-            child: new Column(
+            padding: new EdgeInsets.all(10.0),
+            child: new Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                new Row(
+                new Column(
                   children:[
                     new Text("Account number", style: new TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 15.0)),
+                    new Divider(height: 15.0, color: Colors.black),
+                    new Text("Last Transactions", style: new TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 20.0)),
                   ],
                 ),
-                new Row(
+                new Column(
                   children: [
-                    new Text("Available Balance", style: new TextStyle(
+                    new Text("Available Balace", style: new TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 15.0)),
                   ],
                 ),
+                new Divider(height: 15.0, color: Colors.black),
               ],
             ),
           ),
